@@ -1,25 +1,42 @@
 import './App.css';
 
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { lazy, Suspense } from 'react';
 import { NativeBaseProvider } from "native-base";
+import {Loading, Navbar} from "./components";
 
-import { Button, TextField } from './components';
+const Login = lazy(() => import('./pages/Login'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const ProductList = lazy(() => import('./pages/Products/list'));
+const ProductForm= lazy(() => import('./pages/Products/form'));
 
+const breakpoints = {
+  small: "576px"
+}
 
 function App() {
   return (
     <NativeBaseProvider>
-      <TextField />
-      <Button
-        style={{
-          backgroundColor: 'red'
-        }}
-        text={"Clique em mim"} variant={'contained'} material={true} color={"secondary"}/>
-      <Button text={"Clique em mim 2"} variant={'contained'} color={"secondary"}/>
+      <Router>
+        <Navbar
+            logoTitle={"Minha Logo"}
+            // logoImage={"https://th.bing.com/th/id/OIP.RcPjl1amSOJaS3RGmqcXrAHaCP?rs=1&pid=ImgDetMain"}
+            breakpoints={breakpoints}/>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Dashboard/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/products" element={<ProductList/>}/>
+            <Route path="/products/:id" element={<ProductForm/>}/>
+          </Routes>
+        </Suspense>
+      </Router>
     </NativeBaseProvider>
   );
 }
-
-// TODO: Criar os demais componentes;
-// TODO: Criar as rotas do sistema;
 
 export default App;
