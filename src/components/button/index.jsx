@@ -9,12 +9,12 @@ const Button = (props) => {
             ? <ButtonMaterial 
                 {...props}
                 variant={detectVariant(props.material, props.variant)}
-            >{props.text}</ButtonMaterial>
+            >{props.children}</ButtonMaterial>
             : <ButtonNativeBase 
                 {...props}
                 variant={detectVariant(props.material, props.variant)}
                 colorScheme={props.color}
-            >{props.text}</ButtonNativeBase>
+            >{props.children}</ButtonNativeBase>
     )
 }
 
