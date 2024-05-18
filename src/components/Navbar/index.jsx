@@ -64,8 +64,8 @@ const Navbar = (props) => {
             </Logo>
             <Menu style={props.menuStyle} breakpoints={props.breakpoints}>
                 <MenuItem style={props.menuItemStyle} breakpoints={props.breakpoints}><Link style={{...linkDefault, ...props.linkStyle}} to="/">Dashboard</Link></MenuItem>
-                <MenuItem style={props.menuItemStyle} breakpoints={props.breakpoints}><Link style={{...linkDefault, ...props.linkStyle}} to="/login">Login</Link></MenuItem>
                 <MenuItem style={props.menuItemStyle} breakpoints={props.breakpoints}><Link style={{...linkDefault, ...props.linkStyle}} to="/products">ProductList</Link></MenuItem>
+                <MenuItem style={props.menuItemStyle} breakpoints={props.breakpoints}><Link onClick={props.logout} style={{...linkDefault, ...props.linkStyle}}>Sair</Link></MenuItem>
             </Menu>
         </Nav>
     </>

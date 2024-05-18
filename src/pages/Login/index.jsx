@@ -1,13 +1,39 @@
-import { Avatar, Grid, Checkbox, TextField, Button } from "../../components"
+import { Avatar, Grid, Checkbox, TextField, Button, Alert } from "../../components"
 import backgroundLogin from "../../assets/images/background-login.jpg"
 import logo from "../../assets/images/logo.svg";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { authLogin, isLoggedIn } from "../../utils/auth";
 
 const Login = (props) => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+
     const gridInternalStyle = {
                             [`@media (max-width: ${props.breakpoints.large})`]: {
                                 padding: '1em'
                             }
                         }
+
+    useEffect(() => {
+        isLoggedIn(navigate);
+    }, []);
+
+    const login = async () => {
+        try{
+            const response = await authLogin(props.auth, email, password);
+            if(response === ""){
+                setAlertMessage("");
+                navigate("/");
+            }else{
+                setAlertMessage(response);
+            }
+        }catch(e){
+            console.error(e);
+        }
+    }
 
     return <Grid
                 sx={{
@@ -64,6 +90,7 @@ const Login = (props) => {
                                 type="email"
                                 size="large"
                                 fullWidth={true}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
                         <Grid item={true} xs={12} sx={gridInternalStyle}>
@@ -73,8 +100,16 @@ const Login = (props) => {
                                 label="Password"
                                 type="password"
                                 size="large"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </Grid>
+                        { 
+                            alertMessage === "" 
+                            ? null 
+                            : <Grid item={true} xs={12} sx={gridInternalStyle}>
+                                  <Alert severity="warning">{alertMessage}</Alert>
+                              </Grid> 
+                        }
                         <Grid 
                             sx={{
                                 display: 'flex',
@@ -92,7 +127,7 @@ const Login = (props) => {
                             </label>
                         </Grid>
                         <Grid item={true} xs={12} sx={gridInternalStyle}>
-                            <Button>Entrar</Button>
+                            <Button onPress={login}>Entrar</Button>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -1,9 +1,15 @@
-import {useParams} from "react-router-dom";
-import {useEffect} from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../../utils/auth";
 
 const ProductForm = () => {
     const params = useParams();
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        isLoggedIn(navigate);
+    }, []);
 
     const save = () => {
         if(params.id === "new"){
