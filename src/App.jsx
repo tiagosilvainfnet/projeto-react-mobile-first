@@ -5,7 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { NativeBaseProvider } from "native-base";
 import { Loading, Navbar } from "./components";
 import { initializeApp } from "firebase/app";
@@ -35,8 +35,7 @@ const firebaseConfig = {
 function App() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  // TODO: Dinamizar esse cara
-  const [route, setRoute] = useState("/login"); 
+  const [route, setRoute] = useState("/"); 
 
   return (
     <NativeBaseProvider>
@@ -49,10 +48,10 @@ function App() {
         }
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route path="/" element={<Dashboard breakpoints={breakpoints} auth={auth}/>}/>
-            <Route path="/login" element={<Login breakpoints={breakpoints} auth={auth}/>}/>
-            <Route path="/products" element={<ProductList breakpoints={breakpoints} auth={auth}/>}/>
-            <Route path="/products/:id" element={<ProductForm breakpoints={breakpoints} auth={auth}/>}/>
+            <Route path="/" element={<Dashboard setRoute={setRoute} breakpoints={breakpoints} auth={auth}/>}/>
+            <Route path="/login" element={<Login setRoute={setRoute} breakpoints={breakpoints} auth={auth}/>}/>
+            <Route path="/products" element={<ProductList setRoute={setRoute} breakpoints={breakpoints} auth={auth}/>}/>
+            <Route path="/products/:id" element={<ProductForm setRoute={setRoute} breakpoints={breakpoints} auth={auth}/>}/>
           </Routes>
         </Suspense>
       </Router>

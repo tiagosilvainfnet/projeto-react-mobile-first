@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../../utils/auth";
 
-const ProductForm = () => {
+const ProductForm = (props) => {
     const params = useParams();
     const navigate = useNavigate();
     
     useEffect(() => {
         isLoggedIn(navigate);
+        props.setRoute(window.location.pathname);
     }, []);
 
     const save = () => {

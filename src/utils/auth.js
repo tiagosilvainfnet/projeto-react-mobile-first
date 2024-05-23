@@ -20,6 +20,7 @@ const authLogin = async (auth, email, password) => {
         const response = await signInWithEmailAndPassword(auth, email, password);
         const user = response.user;
         if(user.emailVerified){
+            console.log(user)
             window.localStorage.setItem("user", JSON.stringify(user));
             return "";
         }else{

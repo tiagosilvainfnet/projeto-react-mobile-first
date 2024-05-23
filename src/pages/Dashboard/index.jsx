@@ -8,6 +8,7 @@ const Dashboard = (props) => {
     
     useEffect(() => {
         isLoggedIn(navigate);
+        props.setRoute(window.location.pathname);
     }, []);
 
     return "";

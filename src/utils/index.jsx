@@ -19,7 +19,6 @@ const Login = (props) => {
 
     useEffect(() => {
         isLoggedIn(navigate);
-        props.setRoute(window.location.pathname);
     }, []);
 
     const login = async () => {
