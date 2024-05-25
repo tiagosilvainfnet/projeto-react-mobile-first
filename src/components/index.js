@@ -7,3 +7,6 @@ export { default as Avatar } from './Avatar';
 export { default as Checkbox } from './Checkbox';
 export { default as Alert } from './Alert';
 export { default as TableList } from './TableList';
+export { default as Fab } from './Fab';
+export { default as IconButton } from './IconButton';
+export { default as Typography } from './Typography';

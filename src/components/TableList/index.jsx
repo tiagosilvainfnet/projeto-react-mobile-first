@@ -40,6 +40,12 @@ const DefaultTableList = (props) => {
                                             </TableCell>
                                         ))
                                     }
+                                    {
+                                        props.actions && 
+                                            <TableCell>
+                                                {props.actions(row)}
+                                            </TableCell>
+                                    }
                                 </TableRow>
                             ))}
                             </TableBody>

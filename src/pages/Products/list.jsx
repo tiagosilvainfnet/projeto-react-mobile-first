@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../../utils/auth";
 import { useEffect, useState } from "react";
-import { Grid, TableList } from "../../components";
-import { set } from "firebase/database";
+import { Fab, Grid, IconButton, TableList } from "../../components";
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const ProductList = (props) => {
     const navigate = useNavigate();
@@ -37,6 +40,11 @@ const ProductList = (props) => {
         props.setRoute(window.location.pathname);
     }, []);
 
+    const edit = (id) => {
+        navigate(`/products/${id}`);
+    };
+        
+
     const reloadProducts = async () => {
         setProducts([
             {
@@ -63,6 +71,33 @@ const ProductList = (props) => {
         ]);
     };
 
+    const _delete = (id) => {}
+
+    const show = (id) => {}
+
+    const actions = (row) => {
+        return  <>
+                    <IconButton
+                        color="success" 
+                        onClick={() => edit(row.id)}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton 
+                        color="error" 
+                        onClick={() => _delete(row.id)}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                    <IconButton 
+                        color="primary" 
+                        onClick={() => show(row.id)}
+                    >
+                        <VisibilityIcon />
+                    </IconButton>
+                </>
+    }
+
     return  <Grid container={true} spacing={2}
                 sx={{marginTop: "20px"}}
             >
@@ -76,9 +111,22 @@ const ProductList = (props) => {
                             setPage(p);
                             await reloadProducts();
                         }}
+                        actions={actions}
                         count={2}
                     />
                 </Grid>
+                <Fab 
+                    sx={
+                        {
+                            position: "fixed",
+                            bottom: "20px",
+                            right: "20px",
+                        }
+                    } 
+                    onClick={() => navigate("/products/new")
+                }>
+                    <AddIcon />
+                </Fab>
             </Grid>
 };
 
