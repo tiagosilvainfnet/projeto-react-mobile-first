@@ -3,7 +3,7 @@ import { Button as ButtonNativeBase } from "native-base";
 
 import { detectVariant } from '../../utils/conversor';
 
-const Button = (props) => {
+const DefaultButton = (props) => {
     return (
         props.material 
             ? <ButtonMaterial 
@@ -18,9 +18,10 @@ const Button = (props) => {
     )
 }
 
-Button.defaultProps = {
+DefaultButton.defaultProps = {
     material: false,
-    color: "primary"
+    color: "primary",
+    variant: "solid"
 }
 
-export default Button;
+export default DefaultButton;
