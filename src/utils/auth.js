@@ -1,4 +1,8 @@
-import { sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { sendEmailVerification, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
+const initSetup = async (auth) => {
+    console.log('oi');
+}
 
 const isLoggedIn = (navigate) => {
     const user = window.localStorage.getItem("user");
@@ -28,7 +32,7 @@ const authLogin = async (auth, email, password) => {
             return "Confirme seu e-mail antes de fazer login!";
         }
     }catch(e){
-        console.error(e);
+        throw e;
     }
 }
 
@@ -38,8 +42,18 @@ const authLogout = (auth) => {
     window.location.reload();
 }
 
+const getUser = () => {
+    try{
+        return JSON.parse(window.localStorage.getItem("user"))
+    }catch(e){
+        return null;
+    };
+}
+
 export {
     isLoggedIn,
     authLogin,
-    authLogout
+    authLogout,
+    initSetup,
+    getUser
 }

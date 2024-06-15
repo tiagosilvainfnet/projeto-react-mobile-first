@@ -9,7 +9,7 @@ const Login = (props) => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [alertMessage, setAlertMessage] = useState("");
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const gridInternalStyle = {
                             [`@media (max-width: ${props.breakpoints.large})`]: {
@@ -29,10 +29,20 @@ const Login = (props) => {
                 setAlertMessage("");
                 navigate("/");
             }else{
-                setAlertMessage(response);
+                setAlertMessage((_v) => ({
+                    ..._v,
+                    type: 'warning', 
+                    message: response
+                }));
             }
         }catch(e){
-            console.error(e);
+            // if(e.toString().indexOf("auth/invalid-email") > -1){
+                setAlertMessage((_v) => ({
+                    ..._v,
+                    type: 'error', 
+                    message: 'Usuário inexistente.'
+                }));
+            // }
         }
     }
 
@@ -91,6 +101,7 @@ const Login = (props) => {
                                 type="email"
                                 size="large"
                                 fullWidth={true}
+                                data-cy="e2e-email-login"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
@@ -101,14 +112,15 @@ const Login = (props) => {
                                 label="Password"
                                 type="password"
                                 size="large"
+                                data-cy="e2e-password-login"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </Grid>
                         { 
-                            alertMessage === "" 
+                            alertMessage === null 
                             ? null 
                             : <Grid item={true} xs={12} sx={gridInternalStyle}>
-                                  <Alert severity="warning">{alertMessage}</Alert>
+                                  <Alert data-cy="e2e-alert-message" severity={alertMessage.type}>{alertMessage.message}</Alert>
                               </Grid> 
                         }
                         <Grid 
@@ -127,7 +139,7 @@ const Login = (props) => {
                                 Manter logado
                             </label>
                         </Grid>
-                        <Grid item={true} xs={12} sx={gridInternalStyle}>
+                        <Grid item={true} xs={12} sx={gridInternalStyle} data-cy="e2e-button-login">
                             <Button onPress={login}>Entrar</Button>
                         </Grid>
                     </Grid>

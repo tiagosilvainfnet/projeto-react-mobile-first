@@ -13,7 +13,7 @@ import { Grid } from '..';
 
 
 const DefaultTableList = (props) => {
-    const keys = Object.keys(props?.rows[0]);
+    const keys = Object.keys(props?.rows.length > 0 ? props?.rows[0] : {});
 
     return  <Grid container={true} spacing={2}>
                 <Grid xs={12} item={true}>
@@ -31,7 +31,7 @@ const DefaultTableList = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                            {props.rows.map((row, i) => (
+                            {props?.rows.length > 0 ? props.rows.map((row, i) => (
                                 <TableRow key={`row_${i}`}>
                                     {
                                         keys.map((key) => (
@@ -47,7 +47,7 @@ const DefaultTableList = (props) => {
                                             </TableCell>
                                     }
                                 </TableRow>
-                            ))}
+                            )) : null }
                             </TableBody>
                         </Table>
                     </TableContainer>

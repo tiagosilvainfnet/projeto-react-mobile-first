@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isLoggedIn } from "../../utils/auth";
+import { getUser, isLoggedIn } from "../../utils/auth";
 import { Button, Grid, TextField, Typography } from "../../components";
+import { getData, loadData, saveData, updateData } from "../../utils/database";
 
 const ProductForm = (props) => {
     const params = useParams();
@@ -13,6 +14,8 @@ const ProductForm = (props) => {
         price: 0.0,
         description: "",
         quantity: 1,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
     });
     
     useEffect(() => {
@@ -20,24 +23,41 @@ const ProductForm = (props) => {
         props.setRoute(window.location.pathname);
     }, []);
 
-    const save = () => {
+    const save = async () => {
+        const d = {
+                'name': data.name,
+                'price': data.price,
+                'quantity': data.quantity,
+                'description': data.description,
+                'created_at': data.created_at,
+                'updated_at': data.updated_at,
+                'user_uuid': getUser()?.uid
+            }
+
+        if(data.name === "") return;
+
         if(params.id === "new"){
-            // TODO: Chamar função de salvar
-            console.log("Criando");
+            await saveData('product', d);
         }else{
-            // TODO: Chamar função de editar
-            console.log("Editando");
+            d['updated_at'] = new Date().toISOString();
+            await updateData('product', d, params.id);
         }
+        alert("Salvo com sucesso!");
+        navigate('/products');
     }
 
-    const load = () => {
-        if(params.id !== "new"){
+    const load = async () => {
+        const id = params.id;
+        if(id !== "new"){
+            const result = await getData('product', id);
             setData({
-                id: 1,
-                name: "Product 1",
-                price: 100,
-                description: "Product 1 description",
-                quantity: 5,
+                id: params.id,
+                name: result.name,
+                price: result.price,
+                description: result.description,
+                quantity: result.quantity,
+                created_at: result.created_at,
+                updated_at: result.updated_at,
             });
         }
     }
@@ -52,7 +72,6 @@ const ProductForm = (props) => {
     }
 
     useEffect(() => {
-        save();
         load();
     }, []);
 
