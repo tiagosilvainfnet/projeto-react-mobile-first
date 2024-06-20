@@ -1,4 +1,5 @@
 import { get, getDatabase, ref, set, update } from "firebase/database";
+import { addDataOffline, updateDataOffline } from "./datamodel";
 
 const generateUUID = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -10,7 +11,14 @@ const generateUUID = () => {
 
 const saveData = async (table, data) => {
     const db = getDatabase();
-    set(ref(db, `${table}/` + generateUUID()), data);
+    const id = generateUUID();
+
+    set(ref(db, `${table}/` + id), data);
+
+    await addDataOffline('products', {
+        id,
+        ...data
+    })
 }
 
 const updateData = async (table, data, uid) => {
@@ -18,6 +26,11 @@ const updateData = async (table, data, uid) => {
     const updates = {};
     updates[`/${table}/` + uid] = data;
     update(ref(db), updates);
+
+    await updateDataOffline('products', {
+        id: uid,
+        ...data
+    });
 }
 
 const loadData = async (table) => {
