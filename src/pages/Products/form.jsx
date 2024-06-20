@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser, isLoggedIn } from "../../utils/auth";
 import { Button, Grid, TextField, Typography } from "../../components";
-import { getData, loadData, saveData, updateData } from "../../utils/database";
+import { getData, saveData, updateData } from "../../utils/database";
 
 const ProductForm = (props) => {
     const params = useParams();

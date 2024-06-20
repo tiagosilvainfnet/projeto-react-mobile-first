@@ -12,6 +12,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { authLogout } from './utils/auth';
+import db from "./data/db";
 
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -39,7 +40,7 @@ function App() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const database = getDatabase(app);
-  const [route, setRoute] = useState("/"); 
+  const [route, setRoute] = useState("/");
 
   return (
     <NativeBaseProvider>
